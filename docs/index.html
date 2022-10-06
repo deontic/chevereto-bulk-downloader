@@ -120,8 +120,8 @@
             try {
                 url = new URL(url);
                 // "https://api.codetabs.com/v1/proxy/?quest="
-                fetch(url, {
-                    "headers": {
+                fetch(url).then(handleResult).catch(e => {
+                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`, { "headers": {
                         "accept": "*/*",
                         "accept-language": "en,en-US;q=0.9",
                         "sec-ch-ua": "\"Google Chrome\";v=\"105\", \"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"105\"",
@@ -135,15 +135,11 @@
                     "referrerPolicy": "strict-origin-when-cross-origin",
                     "body": null,
                     "method": "GET",
-                    "mode": "cors",
+                    "mode": "no-cors",
                     "credentials": "include"
-                }
-
-
-                ).then(handleResult).catch(e => {
-                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(
+                }).then(
                         handleResult
-                    );
+                    ); 
                 })
 
 
