@@ -60,7 +60,7 @@
 </body>
 
 <script type="text/javascript">
-    
+
     const a = document.createElement("a");
     document.body.appendChild(a);
 
@@ -68,7 +68,7 @@
         res.blob().then((blob) => {
             const url = URL.createObjectURL(blob);
             a.href = url;
-            a.download = name; 
+            a.download = name;
             a.click();
         });
 
@@ -112,7 +112,7 @@
                     return alert('something went wrong, PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
                 }
 
-                fetch(imgUrl).then(res=>download(res, name)).catch(e => { fetch(`https://api.codetabs.com/v1/proxy/?quest=${imgUrl}`).then(res=>download(res, name)); console.log(e);});
+                fetch(imgUrl).then(res => download(res, name)).catch(e => { fetch(`https://api.codetabs.com/v1/proxy/?quest=${imgUrl}`).then(res => download(res, name)); console.log(e); });
             });
         }
 
