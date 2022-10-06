@@ -60,6 +60,19 @@
 </body>
 
 <script type="text/javascript">
+    
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+
+    function download(res, name) {
+        res.blob().then((blob) => {
+            const url = URL.createObjectURL(blob);
+            a.href = url;
+            a.download = name; 
+            a.click();
+        });
+
+    }
     function main(urls) {
         let rootUrl = urls.match(/^https?:\/\/(.*)\//m);
         rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
@@ -99,57 +112,7 @@
                     return alert('something went wrong')
                 }
 
-                /*
-
-                let imgUrl;
-                let imgType;
-
-                imgUrl = "https://" + doc.substring(root, jpg + 4);
-
-                // these are the formats all formats get converted to in the end
-
-                let types = ["jpg", "png", "gif", "webp"];
-
-                for (type of types) {
-                    imgUrl =
-                        "https://" +
-                        doc
-                            .substring(
-                                doc.lastIndexOf(root),
-                                doc.lastIndexOf("." + type) + type.length + 1
-                            )
-                            .replace(/%2F/g, "/");
-
-                    // 129 characters is the current limit to url sizes
-                    // if the matched url is greater than 129, then it is likely we got an incorrect match
-
-                    if (imgUrl.length > 129) {
-                        continue;
-                    }
-                    imgType = type;
-                    break;
-                }
-                // the url is still more than 129 characters long, so tell the user we can't download this one
-
-                if (imgUrl.length > 129) {
-                    console.log(`cannot download img at url: ${imgUrl}`);
-                    return;
-                }
-
-                */
-
-                fetch(imgUrl).then((res) => {
-                    res.blob().then((blob) => {
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = name; // urlkey
-                        // TODO instead of creating+removing an element every time just store one and change the attributes
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    });
-                });
+                fetch(imgUrl).then(res=>download(res, name)).catch(e => { fetch(`https://api.codetabs.com/v1/proxy/?quest=${imgUrl}`).then(res=>download(res, name)); console.log(e);});
             });
         }
 
