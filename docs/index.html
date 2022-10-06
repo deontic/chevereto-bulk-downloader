@@ -74,6 +74,9 @@
 
     }
     function main(urls) {
+        Object.defineProperty(navigator, 'userAgent', {
+get: function () { return 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0)'; }
+});
         let rootUrl = urls.match(/^https?:\/\/(.*)\//m);
         rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
         if (!rootUrl) {
@@ -101,9 +104,6 @@
                         console.log("this file was not meant to retain its name", e);
                     }
                 }
-                Object.defineProperty(navigator, 'userAgent', {
-    get: function () { return 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0)'; }
-});
                 name = name || "file";
 
                 console.log(doc)
