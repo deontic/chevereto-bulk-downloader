@@ -91,7 +91,7 @@
 
                 name = name || "file";
 
-                const imgUrl = doc.match(/image_src" href="(.*)"/)
+                let imgUrl = doc.match(/image_src" href="(.*)"/)
                 if (imgUrl && imgUrl.length > 0) {
                     imgUrl = imgUrl[1]
                 }
