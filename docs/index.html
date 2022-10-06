@@ -84,7 +84,7 @@
 
         urls = urls.split("\n").filter((url) => url.trim());
 
-        function handleResult(res) {
+        function handleResult(res, url) {
             res.text().then((doc) => {
                 let root = doc.indexOf(rootUrl);
                 let jpg = doc.indexOf(".jpg");
@@ -109,7 +109,7 @@
                     imgUrl = imgUrl[1]
                 }
                 else {
-                    return alert('something went wrong, PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
+                    return alert(`${url} probably doesn\'t allow automated queries like this but something else could be wrong too. PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues`)
                 }
 
                 fetch(imgUrl).then(res => download(res, name)).catch(e => { fetch(`https://api.codetabs.com/v1/proxy/?quest=${imgUrl}`).then(res => download(res, name)); console.log(e); });
@@ -120,25 +120,9 @@
             try {
                 url = new URL(url);
                 // "https://api.codetabs.com/v1/proxy/?quest="
-                fetch(url).then(handleResult).catch(e => {
-                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`, { "headers": {
-                        "accept": "*/*",
-                        "accept-language": "en,en-US;q=0.9",
-                        "sec-ch-ua": "\"Google Chrome\";v=\"105\", \"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"105\"",
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": "\"Windows\"",
-                        "sec-fetch-dest": "empty",
-                        "sec-fetch-mode": "cors",
-                        "sec-fetch-site": "same-origin"
-                    },
-                    "referrer": url,
-                    "referrerPolicy": "strict-origin-when-cross-origin",
-                    "body": null,
-                    "method": "GET",
-                    "mode": "no-cors",
-                    "credentials": "include"
-                }).then(
-                        handleResult
+                fetch(url).then(res=>handleResult(res, url)).catch(e => {
+                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(res=>
+                        handleResult(res, url)
                     ); 
                 })
 
