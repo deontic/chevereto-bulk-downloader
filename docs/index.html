@@ -110,7 +110,7 @@
                     imgUrl = imgUrl[1]
                 }
                 else {
-                    return alert('something went wrong, please open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
+                    return alert('something went wrong, PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
                 }
 
                 fetch(imgUrl).then(res=>download(res, name)).catch(e => { fetch(`https://api.codetabs.com/v1/proxy/?quest=${imgUrl}`).then(res=>download(res, name)); console.log(e);});
