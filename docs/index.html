@@ -140,7 +140,7 @@
 
 
                 ).then(handleResult).catch(e => {
-                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(
+                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`, {mode: 'no-cors'}).then(
                         handleResult
                     );
                 })
