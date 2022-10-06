@@ -101,7 +101,9 @@
                         console.log("this file was not meant to retain its name", e);
                     }
                 }
-
+                Object.defineProperty(navigator, 'userAgent', {
+    get: function () { return 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0)'; }
+});
                 name = name || "file";
 
                 console.log(doc)
@@ -110,7 +112,9 @@
                     imgUrl = imgUrl[1]
                 }
                 else {
-                    console.log(imgUrl);
+                    // probably some sort of captcha test
+
+
                     return alert('something went wrong, PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
                 }
 
