@@ -61,11 +61,11 @@
 
 <script type="text/javascript">
     function main(urls) {
-        let rootUrl = urls.match(/^https?:\/\/(.*)\//m); 
+        let rootUrl = urls.match(/^https?:\/\/(.*)\//m);
         rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
         if (!rootUrl) {
-            alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
-            return;
+            return alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
+
         }
         console.log('root: ', rootUrl);
 
@@ -91,8 +91,18 @@
 
                 name = name || "file";
 
+                const imgUrl = doc.match(/image_src" href="(.*)"/)
+                if (imgUrl && imgUrl.length > 0) {
+                    imgUrl = imgUrl[1]
+                }
+                else {
+                    return alert('something went wrong')
+                }
+
+                /*
+
                 let imgUrl;
-                let imgType = 'jpg';
+                let imgType;
 
                 imgUrl = "https://" + doc.substring(root, jpg + 4);
 
@@ -125,6 +135,8 @@
                     console.log(`cannot download img at url: ${imgUrl}`);
                     return;
                 }
+
+                */
 
                 fetch(imgUrl).then((res) => {
                     res.blob().then((blob) => {
