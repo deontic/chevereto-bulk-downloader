@@ -61,10 +61,6 @@
 
 <script type="text/javascript">
 
-navigator.__defineGetter__('userAgent', function(){
-    return 'foo' // customized user agent
-});
-
     const a = document.createElement("a");
     document.body.appendChild(a);
 
@@ -79,13 +75,12 @@ navigator.__defineGetter__('userAgent', function(){
     }
     function main(urls) {
         let rootUrl = urls.match(/^https?:\/\/(.*)\//m);
-     
+
         rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
         if (!rootUrl) {
             return alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
 
         }
-        console.log('root: ', rootUrl);
 
         urls = urls.split("\n").filter((url) => url.trim());
 
@@ -108,15 +103,12 @@ navigator.__defineGetter__('userAgent', function(){
                 }
                 name = name || "file";
 
-                console.log(doc)
+                // console.log(doc)
                 let imgUrl = doc.match(/image_src" href="(.*)"/)
                 if (imgUrl && imgUrl.length > 1) {
                     imgUrl = imgUrl[1]
                 }
                 else {
-                    // probably some sort of captcha test
-
-
                     return alert('something went wrong, PLEASE open an issue at https://github.com/deontic/chevereto-bulk-downloader/issues')
                 }
 
@@ -128,9 +120,13 @@ navigator.__defineGetter__('userAgent', function(){
             try {
                 url = new URL(url);
                 // "https://api.codetabs.com/v1/proxy/?quest="
-                fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(
-                    handleResult
-                );
+                fetch(url).then(handleResult).catch(e => {
+                    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(
+                        handleResult
+                    ); 
+                })
+
+
             } catch (e) { }
         }
     }
