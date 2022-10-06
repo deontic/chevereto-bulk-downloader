@@ -67,6 +67,7 @@
             alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
             return;
         }
+        console.log('root: ', rootUrl);
 
         urls = urls.split("\n").filter((url) => url.trim());
 
@@ -131,6 +132,7 @@
                         const a = document.createElement("a");
                         a.href = url;
                         a.download = name; // urlkey
+                        // TODO instead of creating+removing an element every time just store one and change the attributes
                         document.body.appendChild(a);
                         a.click();
                         document.body.removeChild(a);
