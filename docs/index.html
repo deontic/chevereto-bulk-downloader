@@ -61,6 +61,10 @@
 
 <script type="text/javascript">
 
+navigator.__defineGetter__('userAgent', function(){
+    return 'foo' // customized user agent
+});
+
     const a = document.createElement("a");
     document.body.appendChild(a);
 
@@ -74,10 +78,8 @@
 
     }
     function main(urls) {
-        Object.defineProperty(navigator, 'userAgent', {
-get: function () { return 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0)'; }
-});
         let rootUrl = urls.match(/^https?:\/\/(.*)\//m);
+     
         rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
         if (!rootUrl) {
             return alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
