@@ -92,7 +92,7 @@
                 name = name || "file";
 
                 let imgUrl = doc.match(/image_src" href="(.*)"/)
-                if (imgUrl && imgUrl.length > 0) {
+                if (imgUrl && imgUrl.length > 1) {
                     imgUrl = imgUrl[1]
                 }
                 else {
