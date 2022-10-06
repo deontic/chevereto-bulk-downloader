@@ -1,0 +1,160 @@
+---
+#
+---
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="title" content="chevereto-bulk-downloader" />
+    <meta name="keywords" content="chevereto,bulk,bulk download,download album,mass download" />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="English" />
+    <meta name="author" content="deontic" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% seo %}
+
+    <style>
+        button {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <title>
+        chevereto-bulk-downloader - a tool to easily download images from websites
+        that use the Chevereto image hosting software.
+    </title>
+</head>
+
+<body>
+    <h1 style="display: none">bulk download</h1>
+    <textarea id="links" style="position: fixed; height: 100vh; width: 100vmax; font-size: 16px" autofocus
+        placeholder="paste viewer links here"></textarea>
+
+    <button id="download" type="button" style="position: fixed; right: 0; width: 200px; height: 50px">
+        download
+    </button>
+
+    <p style="
+        position: fixed;
+        top: 60px;
+        right: 0px;
+        width: 194px;
+        height: 55px;
+        font-size: 21px;
+        font-family: sans-serif;
+      ">
+        simply copy links from your upload page, paste them here, and click
+        download (links separated by
+        <a href="https://en.wikipedia.org/wiki/Newline">newlines)</a>
+    </p>
+</body>
+
+<script type="text/javascript">
+    function main(urls) {
+        let rootUrl = urls.match(/^https?:\/\/(.*)\//m); 
+        rootUrl = rootUrl && rootUrl.length > 1 ? rootUrl[1] : null;
+        if (!rootUrl) {
+            alert("Invalid viewer link found. Please ensure your urls are valid viewer links.")
+            return;
+        }
+
+        urls = urls.split("\n").filter((url) => url.trim());
+
+        function handleResult(res) {
+            res.text().then((doc) => {
+                let root = doc.indexOf(rootUrl);
+                let jpg = doc.indexOf(".jpg");
+
+                let name;
+                try {
+                    name = doc.match(/<title>(.*)<\/title>/)[1];
+                    name = name.substring(0, name.length - 8);
+                } catch (e) {
+                    console.log("error while reading file name:", e);
+                    try {
+                        name = doc.match(/data-text="image-title">(.*)</)[1];
+                    } catch (e) {
+                        console.log("this file was not meant to retain its name", e);
+                    }
+                }
+
+                name = name || "file";
+
+                let imgUrl;
+                let imgType;
+
+                imgUrl = "https://" + doc.substring(root, jpg + 4);
+
+                // these are the formats all formats get converted to in the end
+
+                let types = ["jpg", "png", "gif", "webp"];
+
+                for (type of types) {
+                    imgUrl =
+                        "https://" +
+                        doc
+                            .substring(
+                                doc.lastIndexOf(root),
+                                doc.lastIndexOf("." + type) + type.length + 1
+                            )
+                            .replace(/%2F/g, "/");
+
+                    // 129 characters is the current limit to url sizes
+                    // if the matched url is greater than 129, then it is likely we got an incorrect match
+
+                    if (imgUrl.length > 129) {
+                        continue;
+                    }
+                    imgType = type;
+                    break;
+                }
+                // the url is still more than 129 characters long, so tell the user we can't download this one
+
+                if (imgUrl.length > 129) {
+                    console.log(`cannot download img at url: ${url}`);
+                    return;
+                }
+
+                fetch(imgUrl).then((res) => {
+                    res.blob().then((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = name; // urlkey
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+                });
+            });
+        }
+
+        for (let url of urls) {
+            try {
+                url = new URL(url);
+                // "https://api.codetabs.com/v1/proxy/?quest="
+                fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`).then(
+                    handleResult
+                );
+            } catch (e) { }
+        }
+    }
+
+    const links = document.getElementById("links");
+
+    document.getElementById("download").addEventListener("click", () => {
+        main(links.value);
+    });
+</script>
+
+</html>

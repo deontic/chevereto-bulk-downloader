@@ -1,2 +1,14 @@
-# chevereto-bulk-downloader
-bulk download images from websites that use the Chevereto image hosting software
+# chevereto bulk downloader 
+
+
+Usage :
+
+* visit your website's upload page
+* copy image viewer links
+<img width="484" alt="image" src="https://user-images.githubusercontent.com/68165727/194204900-85ee7e23-a29b-41e1-9dbf-4233fa05cbc5.png">
+
+
+* paste them in the textbox on https://deontic.github.io/chevereto-bulk-downloader
+* press the download button
+
+Hit download and it will download the urls. In case your browser warns you of it downloading multiple urls, allow that by clicking the button in the popup that appears.

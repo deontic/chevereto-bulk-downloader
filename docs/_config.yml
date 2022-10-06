@@ -1,0 +1,11 @@
+
+title: chevereto bulk downloader
+description: >- 
+ chevereto bulk downloader - bulk download images from websites that use the Chevereto image hosting software.
+baseurl: "" 
+url: "https://deontic.github.io/chevereto-bulk-downloader" 
+github_username:  deontic
+
+theme: minima
+plugins:
+  - jekyll-seo-tag
