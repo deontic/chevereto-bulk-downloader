@@ -104,6 +104,7 @@
 
                 name = name || "file";
 
+                console.log(doc)
                 let imgUrl = doc.match(/image_src" href="(.*)"/)
                 if (imgUrl && imgUrl.length > 1) {
                     imgUrl = imgUrl[1]
