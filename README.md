@@ -4,7 +4,7 @@
 Usage :
 
 * visit your website's upload page
-* copy image viewer links
+* find a way to copy image viewer links, e.g 
 <img width="484" alt="image" src="https://user-images.githubusercontent.com/68165727/194204900-85ee7e23-a29b-41e1-9dbf-4233fa05cbc5.png">
 
 
