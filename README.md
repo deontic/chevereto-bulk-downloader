@@ -1,6 +1,6 @@
 # chevereto bulk downloader 
 
-> **Note**: it will only work if the website you want to download from supports automated requests 
+> **Note** it will only work if the website you want to download from supports automated requests 
 
 
 Usage :
