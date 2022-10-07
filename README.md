@@ -1,6 +1,6 @@
 # chevereto bulk downloader 
 
-> **Note** it will only work if the website you want to download from supports automated requests 
+> **Note**: It will only work if the website you want to download from supports automated requests (for example, imgpile.com does not).
 
 
 Usage :
